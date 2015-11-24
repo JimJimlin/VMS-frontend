@@ -4,6 +4,7 @@
     angular
         .module('vmsFrontend')
         .controller('RegisterController', RegisterController);
+        
 
     /** @ngInject */
     function RegisterController($log, $state, fieldName, defaultAvatarPath, vmsClient, vmsErrorMessage, authPrinciple, $scope, cities, localStorageService) {
@@ -69,5 +70,27 @@
             $event.stopPropagation();
             vm.datePicker.status.opened = true;
         }
+
+
+        var compareTo = function() {
+            return {
+                require: "ngModel",
+                scope: {
+                    otherModelValue: "=compareTo"
+                },
+                link: function(scope, element, attributes, ngModel) {
+            
+                ngModel.$validators.compareTo = function(modelValue) {
+                return modelValue == scope.otherModelValue;
+                };
+
+                scope.$watch("otherModelValue", function() {
+                ngModel.$validate();
+                });
+                }
+            };
+        };
+
+
     }
 })();
